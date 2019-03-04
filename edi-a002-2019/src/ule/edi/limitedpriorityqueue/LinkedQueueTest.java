@@ -7,23 +7,21 @@ public class LinkedQueueTest {
 
 	private LinkedQueue cola;
 	
-	
 	@Before
 	public void testBefour() throws Exception{
 		
-		cola = new LinkedQueue();
+		cola = new LinkedQueue<String>();
 	}
 	
 	@Test
-	public void testSomething() {
+	public void testSomething() throws Exception{
 		
 		assertEquals(cola.isEmpty(), true);
 		assertEquals(cola.toString(), "");
-		
 	}
 
 	@Test
-	public void testEnqueueOk() {
+	public void testEnqueueOk() throws Exception {
 		
 		String s0 = "element0";
 		String s1 = "element1";
@@ -38,7 +36,7 @@ public class LinkedQueueTest {
 	}
 	
 	@Test (expected =  NullPointerException.class)
-	public void testEnqueueNull() {
+	public void testEnqueueNull() throws Exception{
 		
 		cola.enqueue(null);
 	}
@@ -82,14 +80,14 @@ public class LinkedQueueTest {
 	}
 
 	@Test
-	public void testIsEmptyTrue() {
+	public void testIsEmptyTrue() throws Exception {
 		
 		assertTrue(cola.isEmpty());
 		
 	}
 	
 	@Test
-	public void testIsEmptyFalse() {
+	public void testIsEmptyFalse() throws Exception{
 		
 		String s0 = "element0";
 		
@@ -100,7 +98,7 @@ public class LinkedQueueTest {
 	}
 
 	@Test
-	public void testSize() {
+	public void testSize() throws Exception{
 		
 		assertEquals(0, cola.size());
 		
@@ -131,7 +129,7 @@ public class LinkedQueueTest {
 	}
 
 	@Test
-	public void testToString() {
+	public void testToString() throws Exception {
 		
 		String s0 = "element0";
 		String s1 = "element1";

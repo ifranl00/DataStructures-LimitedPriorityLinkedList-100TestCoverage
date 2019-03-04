@@ -107,6 +107,7 @@ public class LinkedQueue<T> implements QueueADT<T> {
 		return isEmpty;
 	}
 
+
 	@Override
 	public int size() {
 		// TODO Auto-generated method stub

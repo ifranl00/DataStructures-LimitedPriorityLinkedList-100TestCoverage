@@ -2,6 +2,7 @@ package ule.edi.limitedpriorityqueue;
 
 import org.junit.*;
 
+import static org.junit.Assert.*;
 
 
 
@@ -12,9 +13,15 @@ public class LimitedPriorityQueueArrayTests {
 	private LimitedPriorityQueueArrayImpl<String> pq5;
 	
 	
-	public LimitedPriorityQueueArrayTests() {
+	public LimitedPriorityQueueArrayTests() throws Exception{
 		
-
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testLimitedPriorityQueueArrayInvalidCapacity() throws IllegalArgumentException {
+		
+		pq3 = new LimitedPriorityQueueArrayImpl<String>(0,2);
+		
 	}
 	
 	@Before
@@ -24,8 +31,37 @@ public class LimitedPriorityQueueArrayTests {
 
 	}
 	
+	
 	@Test
-	public void testEnVacia() throws Exception {
+	public void testGetCapacity() throws Exception{
+		
+		assertEquals(3, pq3.getCapacity());
+		assertEquals(5, pq5.getCapacity());
+	}
+	
+	@Test
+	public void testGetSize() throws Exception{
+		
+		assertEquals(0, pq3.getSize());
+	}
+	
+	@Test
+	public void testIsFullTrue() throws Exception{
+		
+		
+		
+	}
+	
+	@Test
+	public void testIsFullFalse() throws Exception {
+		
+		
+		
+	}
+	
+	
+	@Test
+	public void testEmptyTrue() throws Exception {
 		
 	    Assert.assertEquals(pq3.isEmpty(), true);
 	    Assert.assertEquals(pq3.isFull(), false);
@@ -34,9 +70,14 @@ public class LimitedPriorityQueueArrayTests {
 	}
 	
 	@Test
+	public void testEmptyFalse() throws Exception{
+		
+	}
+	
+	@Test
 	public void testInsertarHastaLLenar() throws Exception{
-	    Assert.assertEquals(pq3.enqueue(1, "Prior1_1"), null);
-	    Assert.assertEquals(pq3.isEmpty(), false);
+	    Assert.assertEquals(null, pq3.enqueue(1, "Prior1_1"));
+	    Assert.assertEquals(false, pq3.isEmpty());
 	    Assert.assertEquals(pq3.getSize(), 1);
 	    Assert.assertEquals(pq3.enqueue(2, "Prior2_1"), null);
 	    Assert.assertEquals(pq3.isEmpty(), false);
@@ -49,6 +90,7 @@ public class LimitedPriorityQueueArrayTests {
 	  
 	}
 	
+	
 	@Test
 	public void testInsertarMenorPrioEnLLena() throws Exception{
 	    Assert.assertEquals(pq3.enqueue(1, "Prior1_1"), null);
@@ -60,6 +102,7 @@ public class LimitedPriorityQueueArrayTests {
 	  
 	}
 	
+
 	@Test
 	public void testInsertarMayorPrioEnLLena() throws Exception{
 	    Assert.assertEquals(pq3.enqueue(1, "Prior1_1"), null);
@@ -69,5 +112,22 @@ public class LimitedPriorityQueueArrayTests {
 	    Assert.assertEquals(pq3.enqueue(1, "Prior1_2"), "Prior2_2");
 	    Assert.assertEquals(pq3.toString(), "[( Priority:1 (Prior1_1, Prior1_2)), ( Priority:2 (Prior2_1))]");
 	  
+	}
+	
+	@Test (expected = NullPointerException.class)
+	public void testEnqueueNull() throws EmptyCollectionException {
+		
+		pq3.enqueue(1, null);
+		pq5.enqueue(2, null);
+		
+	}
+	
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testEnqueueInvalidPriority() throws EmptyCollectionException{
+		
+		pq3.enqueue(0, null);
+		pq3.enqueue(800, null);
+		
 	}
 }

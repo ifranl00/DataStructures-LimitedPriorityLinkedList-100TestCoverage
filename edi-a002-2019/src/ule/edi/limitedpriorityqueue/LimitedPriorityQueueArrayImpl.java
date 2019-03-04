@@ -16,17 +16,31 @@ public class LimitedPriorityQueueArrayImpl<T> implements LimitedPriorityQueue<T>
 
 	public LimitedPriorityQueueArrayImpl(int capacity, int npriorities) {
 		
-      //TODO  asignar los valores de los atributos
-	  // Crear el arrayList, y añadir una cola por cada una de las prioridades (1..npriorities)
-	  // Si capacidad <=0 disparar la excepción: IllegalArgumentException
-	
+      
+		 // Si capacidad <=0 disparar la excepción: IllegalArgumentException
+		if(capacity <= 0) {
+			
+			throw new IllegalArgumentException();
+			
+		}else {
+			// Crear el arrayList, 
+			colas = new ArrayList<LinkedQueue<T>>();
+			
+			//TODO  asignar los valores de los atributos
+			count = 0;
+			this.capacity = capacity;
+			this.npriorities = npriorities;
+			
+			//y añadir una cola por cada una de las prioridades (1..npriorities)
+			for(int i = 0; i < npriorities; i++) {
+				
+				colas.add(new LinkedQueue<T>());
+			}
+		}
 		
 		
 	}
 	
-
-
-
     @Override
     public int getCapacity() {
 		return capacity;
@@ -41,24 +55,70 @@ public class LimitedPriorityQueueArrayImpl<T> implements LimitedPriorityQueue<T>
     @Override
     public boolean isFull() {
     	// TODO Auto-generated method stub
-        return false;
+    	boolean isFull = false;
+    	
+    	if(getSize() == getCapacity()){
+    		
+    		isFull = true;
+    	}
+        return isFull;
     }
 
 	@Override
-	public T enqueue(int p, T element) {
+	public T enqueue(int p, T element) throws EmptyCollectionException{
 		// TODO Auto-generated method stub
 		
-		//llamar al encolar asi colas.get(__).enqueue(e);
-		//si se ha llegado al maximo la primera cola por abajo no vacia y llamar a desencolar el ultimo de esa cola (colas.get(x).dequeuelast() donde x es ese que calculamos );
-		return null;
-  
+		
+		T e = null;
+		if( (p > 0) && (p <= npriorities) ) {
+			
+			if(element != null) {
+				
+				if(isFull() == true) {
+					
+					e = element;
+					colas.get(p-1).enqueue(element); //insertamos el elemento segun su prioridad
+					count ++;
+					for(int i = npriorities -1 ; i >= 0; i--) {
+						
+						if(colas.get(i).isEmpty() == false){
+							
+							colas.get(i).dequeueLast();
+							count --;
+						}
+					}
+				} //si no esta llena
+				colas.get(p-1).enqueue(element);
+				count ++;
+				
+				//si se ha llegado al maximo la primera cola por abajo no vacia y llamar a desencolar el ultimo de esa cola (colas.get(x).dequeuelast() donde x es ese que calculamos );
+			}else {
+				
+				throw new NullPointerException();
+			}
+				
+		}else {
+			
+			throw new IllegalArgumentException();
+		}
+		return e;	
 	}
 
 
 	@Override
 	public T first() throws EmptyCollectionException {
 		// TODO Auto-generated method stub
-		return null;
+		T e = null;
+		
+		if(isEmpty() == false) {
+			
+			e = colas.get(0).first();
+			
+		}else {
+			
+			
+		}
+		return e;
       
 	}
 
@@ -72,7 +132,13 @@ public class LimitedPriorityQueueArrayImpl<T> implements LimitedPriorityQueue<T>
 
 	@Override
 	public boolean isEmpty() {
-		return count==0; 
+		
+		boolean isEmpty = false;
+		if(getSize() == 0) {
+			
+			isEmpty = true;
+		}
+		return isEmpty; 
 	}
 
 	
