@@ -122,16 +122,27 @@ public class LinkedQueue<T> implements QueueADT<T> {
 			Node <T> aux = new Node<T>();
 			aux = front;
 			
-			while(aux.next != rear) { //mientras que el auxiliar no quede apuntando al penultimo elemento
+			if(size() == 1) {
 				
-				aux = aux.next; //sigue avanzando
+				aux = front;
+				e = aux.element;
+				front = null;
+				rear = null;
 				
+			}else {
+			
+				while(aux.next != rear) { //mientras que el auxiliar no quede apuntando al penultimo elemento
+				
+					aux = aux.next; //sigue avanzando
+				
+				}
+				e = aux.next.element;
+				aux.next.next = null; //hacemos que sea el ultimo
+				rear = aux.next; //guardamos en rear
 			}
-			e = aux.element;
-			aux.next = null; //hacemos que sea el ultimo
-			rear = aux; //guardamos en rear
 			count --;
 			return e;
+			
 		}else {
 			
 			throw new EmptyCollectionException("Linked queue");
