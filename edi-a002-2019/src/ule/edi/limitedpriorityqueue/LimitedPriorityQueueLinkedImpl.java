@@ -30,11 +30,12 @@ public class LimitedPriorityQueueLinkedImpl<T> implements LimitedPriorityQueue<T
 	
 	public LimitedPriorityQueueLinkedImpl(int capacity) {
 		
-   
+		this.capacity = capacity;
+		this.count = 0;
+		this.first = null;
+		
 	}
 	
-  
-
   
     @Override
     public int getCapacity() {
@@ -50,14 +51,84 @@ public class LimitedPriorityQueueLinkedImpl<T> implements LimitedPriorityQueue<T
     @Override
     public boolean isFull() {
     	// TODO Auto-generated method stub
-    	return false;
+    	
+    	boolean isFull = false;
+    	
+    	if( getSize() == count) {
+    		
+    		isFull = true;
+    	}
+    	return isFull;
     	
     }
 
 	@Override
 	public T enqueue(int p, T element) {
 	   // TODO Auto-generated method stub
-		return null;
+		
+		T deleted = null;
+		QueueNode n = new QueueNode<T>(p, element);
+		QueueNode aux = first;
+		QueueNode aux2 = first;
+		QueueNode aux3 = first;
+		QueueNode aux4 = first;
+		
+		
+		
+		if(p <= 0) {
+			
+			throw new IllegalArgumentException();
+			
+		}else if (element == null){
+			
+			throw new NullPointerException();
+			
+		}else {
+			
+			if(isEmpty() == true) {
+			
+				first.content = element;
+				count ++;
+				
+			}else if(isFull() == true) {
+			
+				while(aux != null && aux.priority >= p) {
+					
+					aux = aux.next;
+
+				}
+				
+				aux2 = aux;
+				aux3 = aux;
+				aux4 = aux;
+				int moveCounter = 0;
+				
+				if(aux3.priority = p) { //si hay mas elementos de su misma p lo ponemos al final de esos
+					while(aux3.priority = p) { //mientras sean de la misma prioridad seguimos para contar cuantos movimientos debemos hacer
+					
+						aux3 = aux3.next;
+						moveCounter++;
+					}
+					
+					int i = 1;
+					while(i< moveCounter) {
+						
+						aux4 = aux4.next; //estamos en el elemento que queremos que apunte al nuevo
+						
+					}
+					aux4.next.content = element;
+						//si hay mas para la derecha
+						//si es el ultimo
+					
+				}else if(aux3.priority >p) {
+					
+					//hay que quedarse en el penultimo 
+				}
+				
+				
+			}
+		}
+		return deleted;
 	}
 
 	@Override
@@ -75,7 +146,7 @@ public class LimitedPriorityQueueLinkedImpl<T> implements LimitedPriorityQueue<T
 	@Override
 	public boolean isEmpty() {
 		// TODO Auto-generated method stub
-		return false;
+		return count == 0;
 	}
 
 	@Override

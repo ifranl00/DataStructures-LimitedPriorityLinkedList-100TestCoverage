@@ -108,9 +108,18 @@ public class LimitedPriorityQueueArrayImpl<T> implements LimitedPriorityQueue<T>
 		// TODO Auto-generated method stub
 		T e = null;
 		
+		boolean done = false;
+				
 		if(isEmpty() == false) {
 			
-			e = colas.get(0).first();
+			for(int i = 0; i < npriorities ; i++) {
+				if(done != true) {
+					if(colas.get(i).isEmpty() == false){
+						e = colas.get(i).first();
+						done = true;
+					}
+				}
+			}
 			
 		}else {
 			
