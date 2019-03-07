@@ -120,8 +120,8 @@ public class LinkedQueue<T> implements QueueADT<T> {
 		if(isEmpty() == false) {
 			
 			T e = null;
-			Node <T> aux = new Node<T>();
-			aux = front;
+			
+			Node <T> aux = front;
 			
 			if(size() == 1) {
 				
@@ -138,8 +138,8 @@ public class LinkedQueue<T> implements QueueADT<T> {
 				
 				}
 				e = aux.next.element;
-				aux.next.next = null; //hacemos que sea el ultimo
-				rear = aux.next; //guardamos en rear
+				aux.next = null; //hacemos que sea el ultimo
+				rear = aux; //guardamos en rear
 			}
 			count --;
 			return e;

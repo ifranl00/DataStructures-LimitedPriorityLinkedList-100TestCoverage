@@ -76,22 +76,20 @@ public class LimitedPriorityQueueArrayImpl<T> implements LimitedPriorityQueue<T>
 				
 				if(isFull() == true) {
 					
-					e = element;
 					colas.get(p-1).enqueue(element); //insertamos el elemento segun su prioridad
 					count ++;
 					for(int i = npriorities -1 ; i >= 0; i--) {
 						
 						if(colas.get(i).isEmpty() == false){
 							
-							colas.get(i).dequeueLast();
+							e = colas.get(i).dequeueLast();
 							count --;
+							return e;
 						}
 					}
 				} //si no esta llena
 				colas.get(p-1).enqueue(element);
 				count ++;
-				
-				//si se ha llegado al maximo la primera cola por abajo no vacia y llamar a desencolar el ultimo de esa cola (colas.get(x).dequeuelast() donde x es ese que calculamos );
 			}else {
 				
 				throw new NullPointerException();
@@ -101,7 +99,7 @@ public class LimitedPriorityQueueArrayImpl<T> implements LimitedPriorityQueue<T>
 			
 			throw new IllegalArgumentException();
 		}
-		return e;	
+		return e;
 	}
 
 
@@ -116,7 +114,7 @@ public class LimitedPriorityQueueArrayImpl<T> implements LimitedPriorityQueue<T>
 			
 		}else {
 			
-			
+			throw new EmptyCollectionException("LimitedPriorityQueueArray");
 		}
 		return e;
       
@@ -127,18 +125,33 @@ public class LimitedPriorityQueueArrayImpl<T> implements LimitedPriorityQueue<T>
 	@Override
 	public T dequeue() throws EmptyCollectionException {
 		// TODO Auto-generated method stub
-		return null;
+		
+		T e = null;
+		if(isEmpty() == false) {
+			
+			for(int i = 0; i < npriorities-1 ; i++) {
+				
+				if(colas.get(i).isEmpty() == false) {
+					
+					e = colas.get(i).dequeue();
+					return e;
+				}
+			}
+			
+			
+		}else {
+			
+			throw new EmptyCollectionException("LimitedPriorityQueueArray");
+		}
+		
+		
+		return e;
 	}
 
 	@Override
 	public boolean isEmpty() {
 		
-		boolean isEmpty = false;
-		if(getSize() == 0) {
-			
-			isEmpty = true;
-		}
-		return isEmpty; 
+		return count == 0;
 	}
 
 	

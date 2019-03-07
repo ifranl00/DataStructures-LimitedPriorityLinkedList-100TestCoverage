@@ -48,14 +48,29 @@ public class LimitedPriorityQueueArrayTests {
 	@Test
 	public void testIsFullTrue() throws Exception{
 		
+		String e0 = "Huenkai";
+		String e1 = "Sehun";
+		String e2 = "Chanyeol";
+		
+		pq3.enqueue(1, e0);
+		pq3.enqueue(1, e1);
+		pq3.enqueue(1, e2);
+		
+		assertTrue(pq3.isFull());
 		
 		
 	}
 	
 	@Test
-	public void testIsFullFalse() throws Exception {
+	public void testIsFullFalse() throws Exception{
 		
+		String e0 = "Huenkai";
+		String e1 = "Sehun";
 		
+		pq3.enqueue(1, e0);
+		pq3.enqueue(1, e1);
+		
+		assertFalse(pq3.isFull());
 		
 	}
 	
@@ -64,15 +79,24 @@ public class LimitedPriorityQueueArrayTests {
 	public void testEmptyTrue() throws Exception {
 		
 	    Assert.assertEquals(pq3.isEmpty(), true);
-	    Assert.assertEquals(pq3.isFull(), false);
 	    Assert.assertEquals(pq3.getSize(), 0);
 	    Assert.assertEquals(pq3.toString(), "[]");
 	}
 	
 	@Test
-	public void testEmptyFalse() throws Exception{
+	public void testEmptyFalse() throws Exception {
 		
+		String e0 = "Huenkai";
+		String e1 = "Sehun";
+		
+		pq3.enqueue(1, e0);
+		pq3.enqueue(1, e1);
+		
+	    assertEquals(false, pq3.isEmpty());
 	}
+
+	
+	
 	
 	@Test
 	public void testInsertarHastaLLenar() throws Exception{
@@ -128,6 +152,58 @@ public class LimitedPriorityQueueArrayTests {
 		
 		pq3.enqueue(0, null);
 		pq3.enqueue(800, null);
+		
+	}
+
+
+	@Test 
+	public void testFirstOk() throws EmptyCollectionException{
+		
+		String e0 = "Mark";
+		assertEquals(true, pq3.isEmpty());
+		pq3.enqueue(1, e0);
+		
+		assertEquals(e0, pq3.first());
+		
+	}
+	
+	@Test (expected = EmptyCollectionException.class)
+	public void testFirstEmpty() throws EmptyCollectionException{
+		
+		String e0 = "Mark";
+		assertEquals(true, pq3.isEmpty());
+		
+		pq3.first();
+		
+	}
+	
+	@Test 
+	public void testDequeueOk() throws EmptyCollectionException{
+		
+		String e0 = "Mark";
+		String e1 = "Taeyong";
+		assertEquals(true, pq3.isEmpty());
+		assertEquals(true, pq5.isEmpty());
+		
+		pq3.enqueue(1,e0);
+		pq3.enqueue(2,e1);
+		pq5.enqueue(1, e0);
+		
+		assertEquals(e0, pq3.dequeue());
+		assertEquals(e0, pq5.dequeue());
+	
+	}
+	
+	@Test (expected = EmptyCollectionException.class)
+	public void testDequeueEmpty() throws EmptyCollectionException{
+		
+		String e0 = "Mark";
+		String e1 = "Taeyong";
+		assertEquals(true, pq3.isEmpty());
+		assertEquals(true, pq5.isEmpty());
+		
+		pq3.dequeue();
+		pq5.dequeue();
 		
 	}
 }
