@@ -122,7 +122,7 @@ public class LimitedPriorityQueueLinkedImpl<T> implements LimitedPriorityQueue<T
     	QueueNode <T> n = new QueueNode<T>(p,element);
 		QueueNode <T> aux = first;
 		
-		while(aux.next != null && aux.next.priority < p) { //mientras la prioridad sea menor
+		while(aux.next != null && aux.next.priority <= p) { //mientras la prioridad sea menor
 			
 			aux = aux.next;
 		}
@@ -201,15 +201,43 @@ public class LimitedPriorityQueueLinkedImpl<T> implements LimitedPriorityQueue<T
 		
 		T e = null;
 		
+		if(isEmpty() == true) {
+			
+			throw new EmptyCollectionException("LinkedPriorityQueueLinked");
+			
+		}else {
+			
+			e = first.content;
+			
+		}
 		
-		
+		return e;
 		
 	}
 
 	@Override
 	public T dequeue() throws EmptyCollectionException {
 		// TODO Auto-generated method stub
-		return null;
+		
+		T e = null;
+		
+		if(isEmpty()) {
+			
+			throw new EmptyCollectionException("LinkedPriorityQueueLinked"); 
+
+		}else {
+			e = first.content;
+			
+			if(getSize() == 1) {
+				first = null;
+				
+			}else {
+				first = first.next;
+			}
+			count --;
+		}
+		
+		return e;
 	}
 
 	@Override
@@ -220,13 +248,51 @@ public class LimitedPriorityQueueLinkedImpl<T> implements LimitedPriorityQueue<T
 
 	@Override
 	public String toString() {
+		
+		boolean separator=false;
 		if (! this.isEmpty()) {
 			StringBuffer rx = new StringBuffer();
+			QueueNode <T >aux = first;
+			QueueNode <T >auxFinal = first;
 			rx.append("[");
 		      // TODO : MOSTRAR LOS ELEMENTOS DE LA COLA DE PRIORIDAD CON EL MISMO FORMATO QUE LA OTRA IMPLEMENTACIÓN
-		
-			rx.append("]");
-			return rx.toString();
+			aux = first;
+			int i = 0;
+			
+			//para buscar el elemento final
+			while(auxFinal.next != null) {
+				
+				auxFinal = auxFinal.next;
+			}
+			
+			while(aux.next != null) {
+						
+				i = aux.priority;
+				
+				rx.append("( Priority:"+(i)+" ("); 
+
+                rx.append(aux.content.toString());
+
+                if(aux.next == auxFinal) {
+                	
+                	rx.append(", ");
+                	rx.append(aux.next.content.toString());
+                }
+                rx.append(")), ");
+                aux = aux.next;
+            
+			}
+		    separator=true;
+			
+			if (separator) 
+
+            rx.delete(rx.length() - 2,rx.length());
+
+            rx.append("]");
+
+            return rx.toString();
+			
+			
 		} else {
 			return "[]";
 		}

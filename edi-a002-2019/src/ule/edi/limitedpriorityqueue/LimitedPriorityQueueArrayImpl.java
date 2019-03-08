@@ -168,7 +168,7 @@ public class LimitedPriorityQueueArrayImpl<T> implements LimitedPriorityQueue<T>
 
 	public String toString() {
 
-	            boolean separator=false;
+		boolean separator=false;
 
 	            if (! this.isEmpty()) {
 

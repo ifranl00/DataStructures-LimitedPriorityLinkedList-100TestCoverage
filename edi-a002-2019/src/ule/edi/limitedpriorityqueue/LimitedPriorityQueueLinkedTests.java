@@ -133,7 +133,7 @@ public class LimitedPriorityQueueLinkedTests {
 		assertTrue(pq3.isEmpty());
 		pq3.enqueue(2, e0);
 		pq3.enqueue(2, e1);
-		pq3.enqueue(3, e2);
+		pq3.enqueue(2, e2);
 		
 		assertTrue(pq3.isFull());
 		assertEquals( e2,pq3.enqueue(1, e3));
@@ -199,6 +199,18 @@ public class LimitedPriorityQueueLinkedTests {
 	  
 	}
 	
+	@Test
+	public void testDequeueLast() throws EmptyCollectionException{
+		
+		String e0 = "Mark";
+		assertEquals(true, pq3.isEmpty());
+		
+		pq3.enqueue(1, e0);
+		assertEquals(1, pq3.getSize());
+		
+		
+		
+	}
 	@Test 
 	public void testFirstOk() throws EmptyCollectionException{
 		
@@ -230,9 +242,9 @@ public class LimitedPriorityQueueLinkedTests {
 		
 		pq3.enqueue(1,e0);
 		pq3.enqueue(2,e1);
-		pq5.enqueue(1, e0);
-		
 		assertEquals(e0, pq3.dequeue());
+		
+		pq5.enqueue(1, e0);
 		assertEquals(e0, pq5.dequeue());
 	
 	}
@@ -249,6 +261,8 @@ public class LimitedPriorityQueueLinkedTests {
 		pq5.dequeue();
 		
 	}
-
+	
+	
 }
+
 
