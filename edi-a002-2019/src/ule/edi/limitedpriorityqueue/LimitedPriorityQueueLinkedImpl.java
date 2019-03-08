@@ -3,6 +3,8 @@ package ule.edi.limitedpriorityqueue;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
+import ule.edi.limitedpriorityqueue.LinkedQueue.Node;
+
 
 public class LimitedPriorityQueueLinkedImpl<T> implements LimitedPriorityQueue<T> {
 	    private int capacity;
@@ -54,7 +56,7 @@ public class LimitedPriorityQueueLinkedImpl<T> implements LimitedPriorityQueue<T
     	
     	boolean isFull = false;
     	
-    	if( getSize() == count) {
+    	if( getCapacity() == count) {
     		
     		isFull = true;
     	}
@@ -62,18 +64,83 @@ public class LimitedPriorityQueueLinkedImpl<T> implements LimitedPriorityQueue<T
     	
     }
 
+    private  T dequeueLast() throws EmptyCollectionException {
+    	
+    	if(isEmpty() == false) {
+			
+			T e = null;
+			
+			QueueNode <T> aux = first;
+			
+			if(getSize() == 1) {
+				
+				aux = first;
+				e = aux.content;
+				first = null;
+				
+			}else {
+			
+				while(aux.next.next != null) { //mientras que el auxiliar no quede apuntando al penultimo elemento
+				
+					aux = aux.next; //sigue avanzando
+				
+				}
+				e = aux.next.content;
+				aux.next = null; //hacemos que sea el ultimo
+			}
+			count --;
+			return e;
+			
+		}else {
+			
+			throw new EmptyCollectionException("LinkedPriorityQueueLinked");
+		}	
+    }
+    
+    private void enqueueFirst(int p, T element) {
+    	
+    	QueueNode <T> n = new QueueNode<T>(p,element);
+    	
+    	if(first.priority < p) { 
+    		//anyadimos despues del primero
+    		first.next = n;
+    		n = null;
+    		
+    		
+    	}else {
+    		//anyandimos antes del primero
+    		
+    		n.next = first;
+    		first = n;
+    		
+    	}
+    	count ++;
+    }
+    
+    private void enqueueNotFirst(int p, T element) {
+    	
+    	QueueNode <T> n = new QueueNode<T>(p,element);
+		QueueNode <T> aux = first;
+		
+		while(aux.next != null && aux.next.priority < p) { //mientras la prioridad sea menor
+			
+			aux = aux.next;
+		}
+		
+		//anyandimos el nodo
+		n.next = aux.next;
+		aux.next = n;
+		count ++;
+    	
+    }
+    
 	@Override
-	public T enqueue(int p, T element) {
+	public T enqueue(int p, T element) throws EmptyCollectionException {
 	   // TODO Auto-generated method stub
 		
 		T deleted = null;
-		QueueNode n = new QueueNode<T>(p, element);
-		QueueNode aux = first;
-		QueueNode aux2 = first;
-		QueueNode aux3 = first;
-		QueueNode aux4 = first;
-		
-		
+		QueueNode <T> n;
+		QueueNode <T >aux = first;
 		
 		if(p <= 0) {
 			
@@ -87,45 +154,42 @@ public class LimitedPriorityQueueLinkedImpl<T> implements LimitedPriorityQueue<T
 			
 			if(isEmpty() == true) {
 			
-				first.content = element;
+				first= new QueueNode <T>(p,element);
 				count ++;
 				
 			}else if(isFull() == true) {
 			
-				while(aux != null && aux.priority >= p) {
+				if(getSize() == 1) {
 					
-					aux = aux.next;
-
+					//anyadimos el nodo
+					enqueueFirst(p,element);
+					//borramos el ultimo
+					deleted = dequeueLast();
+					count --;
+					
+					
+				}else {
+				
+					//anyadimos el nodo
+					enqueueNotFirst(p, element);
+					//borramos el ultimo
+					deleted = dequeueLast();
+					count --;
 				}
 				
-				aux2 = aux;
-				aux3 = aux;
-				aux4 = aux;
-				int moveCounter = 0;
+			}else { // si no esta llena
 				
-				if(aux3.priority = p) { //si hay mas elementos de su misma p lo ponemos al final de esos
-					while(aux3.priority = p) { //mientras sean de la misma prioridad seguimos para contar cuantos movimientos debemos hacer
+				if(getSize() == 1) {
 					
-						aux3 = aux3.next;
-						moveCounter++;
-					}
+					//anyadimos el nodo
+					enqueueFirst(p,element);
 					
-					int i = 1;
-					while(i< moveCounter) {
-						
-						aux4 = aux4.next; //estamos en el elemento que queremos que apunte al nuevo
-						
-					}
-					aux4.next.content = element;
-						//si hay mas para la derecha
-						//si es el ultimo
+				}else {
 					
-				}else if(aux3.priority >p) {
-					
-					//hay que quedarse en el penultimo 
+					//anyadimos el nodo
+					enqueueNotFirst(p, element);
 				}
-				
-				
+					
 			}
 		}
 		return deleted;
@@ -134,7 +198,12 @@ public class LimitedPriorityQueueLinkedImpl<T> implements LimitedPriorityQueue<T
 	@Override
 	public T first() throws EmptyCollectionException {
 		// TODO Auto-generated method stub
-		return null;
+		
+		T e = null;
+		
+		
+		
+		
 	}
 
 	@Override
