@@ -12,7 +12,6 @@ public class LimitedPriorityQueueArrayImpl<T> implements LimitedPriorityQueue<T>
 
 	    private ArrayList<LinkedQueue<T>> colas;
 	
-	
 
 	public LimitedPriorityQueueArrayImpl(int capacity, int npriorities) {
 		

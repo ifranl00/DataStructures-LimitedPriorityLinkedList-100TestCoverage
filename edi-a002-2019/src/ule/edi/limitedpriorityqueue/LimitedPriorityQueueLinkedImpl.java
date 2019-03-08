@@ -97,6 +97,7 @@ public class LimitedPriorityQueueLinkedImpl<T> implements LimitedPriorityQueue<T
 		}	
     }
     
+    
     private void enqueueFirst(int p, T element) {
     	
     	QueueNode <T> n = new QueueNode<T>(p,element);
