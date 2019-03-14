@@ -64,7 +64,7 @@ public class LimitedPriorityQueueArrayImpl<T> implements LimitedPriorityQueue<T>
     }
 
 	@Override
-	public T enqueue(int p, T element) throws EmptyCollectionException{
+	public T enqueue(int p, T element){
 		// TODO Auto-generated method stub
 		
 		
@@ -81,9 +81,13 @@ public class LimitedPriorityQueueArrayImpl<T> implements LimitedPriorityQueue<T>
 						
 						if(colas.get(i).isEmpty() == false){
 							
+							try {
 							e = colas.get(i).dequeueLast();
 							count --;
 							return e;
+							}catch(Exception EmptyCollectionException) {
+								
+							}
 						}
 					}
 				} //si no esta llena
@@ -135,24 +139,20 @@ public class LimitedPriorityQueueArrayImpl<T> implements LimitedPriorityQueue<T>
 		// TODO Auto-generated method stub
 		
 		T e = null;
-		if(isEmpty() == false) {
-			
-			for(int i = 0; i < npriorities-1 ; i++) {
-				
-				if(colas.get(i).isEmpty() == false) {
-					
-					e = colas.get(i).dequeue();
-					return e;
-				}
-			}
-			
-			
-		}else {
+		if(isEmpty() == true) {
 			
 			throw new EmptyCollectionException("LimitedPriorityQueueArray");
+			
+		}else {
+		
+			for(int i = 0; i < npriorities-1 ; i++) {
+			
+				if(colas.get(i).isEmpty() == false) {
+				
+					e = colas.get(i).dequeue();
+				}
+			}
 		}
-		
-		
 		return e;
 	}
 

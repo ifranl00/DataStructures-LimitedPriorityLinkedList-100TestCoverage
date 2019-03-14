@@ -105,7 +105,7 @@ public class LimitedPriorityQueueLinkedImpl<T> implements LimitedPriorityQueue<T
     	if(first.priority < p) { 
     		//anyadimos despues del primero
     		first.next = n;
-    		n = null;
+    		n.next = null;
     		
     		
     	}else {
@@ -136,7 +136,7 @@ public class LimitedPriorityQueueLinkedImpl<T> implements LimitedPriorityQueue<T
     }
     
 	@Override
-	public T enqueue(int p, T element) throws EmptyCollectionException {
+	public T enqueue(int p, T element) {
 	   // TODO Auto-generated method stub
 		
 		T deleted = null;
@@ -165,8 +165,12 @@ public class LimitedPriorityQueueLinkedImpl<T> implements LimitedPriorityQueue<T
 					//anyadimos el nodo
 					enqueueFirst(p,element);
 					//borramos el ultimo
+					try {
 					deleted = dequeueLast();
 					count --;
+					}catch(Exception EmptyCollectionException) {
+						
+					}
 					
 					
 				}else {
@@ -174,8 +178,12 @@ public class LimitedPriorityQueueLinkedImpl<T> implements LimitedPriorityQueue<T
 					//anyadimos el nodo
 					enqueueNotFirst(p, element);
 					//borramos el ultimo
+					try {
 					deleted = dequeueLast();
 					count --;
+					}catch(Exception EmptyCollectionException) {
+						
+					}
 				}
 				
 			}else { // si no esta llena
