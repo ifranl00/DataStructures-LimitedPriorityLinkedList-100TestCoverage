@@ -72,13 +72,6 @@ public class LimitedPriorityQueueLinkedImpl<T> implements LimitedPriorityQueue<T
 			
 			QueueNode <T> aux = first;
 			
-			if(getSize() == 1) {
-				
-				aux = first;
-				e = aux.content;
-				first = null;
-				
-			}else {
 			
 				while(aux.next.next != null) { //mientras que el auxiliar no quede apuntando al penultimo elemento
 				
@@ -87,7 +80,6 @@ public class LimitedPriorityQueueLinkedImpl<T> implements LimitedPriorityQueue<T
 				}
 				e = aux.next.content;
 				aux.next = null; //hacemos que sea el ultimo
-			}
 			count --;
 			return e;
 			
@@ -261,52 +253,65 @@ public class LimitedPriorityQueueLinkedImpl<T> implements LimitedPriorityQueue<T
 		boolean separator=false;
 		if (! this.isEmpty()) {
 			StringBuffer rx = new StringBuffer();
-			QueueNode <T >aux = first;
-			QueueNode <T >auxFinal = first;
+			QueueNode <T >aux0 = first; // para guardar el primero
+			QueueNode <T >aux1 = first; // para guardar el anterior
+			QueueNode <T >aux2 = first.next; //para pasar por todos excepto el primero
+			int firstPrinted = 0;
 			rx.append("[");
 		      // TODO : MOSTRAR LOS ELEMENTOS DE LA COLA DE PRIORIDAD CON EL MISMO FORMATO QUE LA OTRA IMPLEMENTACIÓN
-			aux = first;
-			int i = 0;
 			
-			//para buscar el elemento final
-			while(auxFinal.next != null) {
+			while(aux1 != null && aux2 != null) {
 				
-				auxFinal = auxFinal.next;
-			}
-			
-			while(aux.next != null) {
+				if(aux0 != null && firstPrinted == 0){  //tratamos el primero a parte
+					
+					rx.append("( Priority:"+(aux0.priority)+" (");
+					rx.append(aux0.content.toString());
+					firstPrinted = 1; //indicamos que ya se ha impreso el primero
+					
+				}
+				if(firstPrinted == 1) { //si ya se ha impreso el primer elemento
+					
+					
+					if(aux1.priority != aux2.priority) { //si las prioridades son distintas
 						
-				i = aux.priority;
+						rx.append(")), ");
+						rx.append("( Priority:"+(aux2.priority)+" (");
+						rx.append(aux2.content.toString());
+						
+					}else { //si es de la misma prioridad
+					
+						rx.append(", ");
+						rx.append(aux2.content.toString());
+						
+						}	
+					
+					}
 				
-				rx.append("( Priority:"+(i)+" ("); 
-
-                rx.append(aux.content.toString());
-
-                if(aux.next == auxFinal) {
-                	
-                	rx.append(", ");
-                	rx.append(aux.next.content.toString());
-                }
-                rx.append(")), ");
-                aux = aux.next;
+				if(aux2.next == null) {
+					rx.append(")), ");
+				}
+				//avanzamos
+					aux1 = aux1.next;
+					aux2 = aux2.next;
+				}
+				
             
+				separator=true;
+			
+				if (separator) {
+
+					rx.delete(rx.length() - 2,rx.length());
+
+					rx.append("]");
+		
+					return rx.toString();
+				}
+			
+			
 			}
-		    separator=true;
-			
-			if (separator) 
-
-            rx.delete(rx.length() - 2,rx.length());
-
-            rx.append("]");
-
-            return rx.toString();
-			
-			
-		} else {
-			return "[]";
-		}
+		
+	
+		return "[]";
 	}
-
-
-  
 }
+

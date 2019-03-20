@@ -188,6 +188,18 @@ public class LimitedPriorityQueueLinkedTests {
 	  
 	}
 	
+	@Test
+	public void testDequeueLastSize1() {
+		
+		String e0 = "Mark";
+		String e1 = "Lucas";
+		
+		assertEquals(true, pq1.isEmpty());
+		assertEquals(pq1.enqueue(2, e0 ),null);
+		
+		assertEquals(pq1.enqueue(1,e1), e0);
+	}
+	
 	
 	@Test
 	public void testInsertarMayorPrioEnLLena() throws Exception{

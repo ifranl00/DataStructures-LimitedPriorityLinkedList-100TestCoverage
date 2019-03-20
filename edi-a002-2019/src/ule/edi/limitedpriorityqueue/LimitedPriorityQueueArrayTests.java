@@ -96,6 +96,7 @@ public class LimitedPriorityQueueArrayTests {
 	
 	
 	
+	
 	@Test
 	public void testInsertarHastaLLenar() throws Exception{
 	    Assert.assertEquals(null, pq3.enqueue(1, "Prior1_1"));
@@ -195,8 +196,7 @@ public class LimitedPriorityQueueArrayTests {
 	@Test (expected = EmptyCollectionException.class)
 	public void testDequeueEmpty() throws EmptyCollectionException{
 		
-		String e0 = "Mark";
-		String e1 = "Taeyong";
+
 		assertEquals(true, pq3.isEmpty());
 		assertEquals(true, pq5.isEmpty());
 		
