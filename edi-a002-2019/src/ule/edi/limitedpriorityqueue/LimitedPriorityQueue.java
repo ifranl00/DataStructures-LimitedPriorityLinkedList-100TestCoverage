@@ -33,9 +33,9 @@ public interface LimitedPriorityQueue<T> {
 	 * @return si la cola de prioridad estaba llena, devuelve el elemento de menor prioridad que lleve menos tiempo en la cola;
 	 *         si no estaba llena, devuelve null 
 	 *  @throws IllegalArgumentException  si la prioridad no es correcta   
-	 *  @throws EmptyCollectionException si la cola esta vacia    
+	 *    
 	 */
-	public T enqueue(int p, T elem) throws EmptyCollectionException;
+	public T enqueue(int p, T elem);
 
 	/**
 	 * Obtener el elemento con la prioridad mayor que más tiempo lleve en la
